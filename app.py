@@ -4,14 +4,14 @@ import streamlit as st
 def get_range_for_difficulty(difficulty: str):
     if difficulty == "Easy":
         return 1, 20
-    if difficulty == "Normal":
-        return 1, 100
-    if difficulty == "Hard":
+    if difficulty == "Normal": #FIX: swapped wrong range for normal and hard
         return 1, 50
+    if difficulty == "Hard":
+        return 1, 100
     return 1, 100
 
 
-def parse_guess(raw: str):
+def parse_guess(raw: str, low: int = 1, high: int = 100): #FIX: added low and high parameters to validate guess range
     if raw is None:
         return False, None, "Enter a guess."
 
@@ -25,6 +25,9 @@ def parse_guess(raw: str):
             value = int(raw)
     except Exception:
         return False, None, "That is not a number."
+
+    if value < low or value > high: #FIX: added range validation
+        return False, None, f"Guess must be between {low} and {high}."
 
     return True, value, None
 
@@ -107,7 +110,7 @@ if "history" not in st.session_state:
 st.subheader("Make a guess")
 
 st.info(
-    f"Guess a number between 1 and 100. "
+    f"Guess a number between {low} and {high}. " #FIX: updated range for respective difficulty levels
     f"Attempts left: {attempt_limit - st.session_state.attempts}"
 )
 
@@ -133,7 +136,10 @@ with col3:
 
 if new_game:
     st.session_state.attempts = 0
-    st.session_state.secret = random.randint(1, 100)
+    st.session_state.status = "playing" #FIX: reset game status for starting a new game
+    st.session_state.secret = random.randint(low, high)
+    st.session_state.score = 0
+    st.session_state.history = []
     st.success("New game started.")
     st.rerun()
 
@@ -147,7 +153,7 @@ if st.session_state.status != "playing":
 if submit:
     st.session_state.attempts += 1
 
-    ok, guess_int, err = parse_guess(raw_guess)
+    ok, guess_int, err = parse_guess(raw_guess, low, high) #FIX: pass low and high for range validation
 
     if not ok:
         st.session_state.history.append(raw_guess)
@@ -155,12 +161,7 @@ if submit:
     else:
         st.session_state.history.append(guess_int)
 
-        if st.session_state.attempts % 2 == 0:
-            secret = str(st.session_state.secret)
-        else:
-            secret = st.session_state.secret
-
-        outcome, message = check_guess(guess_int, secret)
+        outcome, message = check_guess(guess_int, st.session_state.secret) #FIX: changed even guess logic to use int comparison
 
         if show_hint:
             st.warning(message)
