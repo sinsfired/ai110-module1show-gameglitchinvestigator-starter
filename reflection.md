@@ -5,6 +5,8 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 ## 1. What was broken when you started?
 
 - What did the game look like the first time you ran it?
+It looked like a vibecoded website.
+
 - List at least two concrete bugs you noticed at the start  
   (for example: "the hints were backwards").
   Gives the wrong hints. 
@@ -57,6 +59,10 @@ Streamlit reflects the code change automatically without having to refresh the p
 ## 5. Looking ahead: your developer habits
 
 - What is one habit or strategy from this project that you want to reuse in future labs or projects?
-  - This could be a testing habit, a prompting strategy, or a way you used Git.
+I found it interesting to use AI to come up with test cases that covered edge cases. This would've been a very meticulous task to do by hand.
+
 - What is one thing you would do differently next time you work with AI on a coding task?
+I will try to ask it more intuitive questions during prompting. I want it to be a tool that can see what coders might easily overlook.
+
 - In one or two sentences, describe how this project changed the way you think about AI generated code.
+This opened me to how much careful prompting can be useful while coding. It also showed me how unverified AI generated code can be full of bugs even though it is up and running.

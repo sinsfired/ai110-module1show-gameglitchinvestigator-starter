@@ -25,28 +25,57 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+- [x] **Describe the game's purpose:** A number guessing game where players guess a secret number based on difficulty level (Easy: 1-20, Normal: 1-50, Hard: 1-100) and receive hints to find it.
+
+- [x] **Detail which bugs you found:**
+  1. Wrong hints due to secret being converted to string 
+  2. Difficulty ranges were backwards (Normal and Hard swapped)
+  3. Accepted guesses outside the valid range
+  4. Displayed wrong range in the hint message
+  5. "New Game" button didn't reset properly
+
+- [x] **Explain what fixes you applied:**
+  1. Removed string conversion that caused wrong comparisons
+  2. Fixed ranges: Easy (1-20), Normal (1-50), Hard (1-100)
+  3. Added range validation to `parse_guess()`
+  4. Updated hint to show actual difficulty range
+  5. Fixed "New Game" to reset all state and use correct range
 
 ## 📸 Demo Walkthrough
 
-Describe your fixed game in numbered steps so a reader can follow along without watching a video:
-
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
-
-**Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
+1. Select a difficulty level from the sidebar
+2. Enter a guess within the shown range
+3. Get an accurate hint (Too High/Too Low)
+4. Try entering a number outside the range—it's rejected
+5. Win by finding the secret number
+6. Click "New Game" to start fresh
 
 ## 🧪 Test Results
 
 ```
-# Paste your pytest output here, e.g.:
-# pytest tests/
-# ========================= X passed in 0.XXs =========================
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/sindhuja/codepath/ai110-module1show-gameglitchinvestigator-starte
+r
+plugins: anyio-4.14.0
+collected 13 items                                                             
+
+tests/test_game_logic.py::test_winning_guess PASSED                      [  7%]
+tests/test_game_logic.py::test_guess_too_high PASSED                     [ 15%]
+tests/test_game_logic.py::test_guess_too_low PASSED                      [ 23%]
+tests/test_game_logic.py::test_numeric_comparison_bug_fix PASSED         [ 30%]
+tests/test_game_logic.py::test_parse_guess_valid_number PASSED           [ 38%]
+tests/test_game_logic.py::test_parse_guess_float_to_int PASSED           [ 46%]
+tests/test_game_logic.py::test_parse_guess_empty_string PASSED           [ 53%]
+tests/test_game_logic.py::test_parse_guess_none PASSED                   [ 61%]
+tests/test_game_logic.py::test_parse_guess_non_numeric PASSED            [ 69%]
+tests/test_game_logic.py::test_parse_guess_out_of_range_too_low PASSED   [ 76%]
+tests/test_game_logic.py::test_parse_guess_out_of_range_too_high PASSED  [ 84%]
+tests/test_game_logic.py::test_parse_guess_within_easy_range PASSED      [ 92%]
+tests/test_game_logic.py::test_parse_guess_within_hard_range PASSED      [100%]
+
+============================== 13 passed in 0.02s ==============================
 ```
 
 ## 🚀 Stretch Features
